@@ -26,7 +26,18 @@ def build_create_advertisement_payload():
     return deepcopy(ADVERTISEMENT_TEMPLATE)
 
 
-def build_update_advertisement_payload(existing_image_url):
+def build_update_advertisement_payload(existing_image_url=None):
     payload = deepcopy(UPDATED_ADVERTISEMENT_TEMPLATE)
-    payload["img1"] = existing_image_url
+    if existing_image_url is not None:
+        payload["img1"] = existing_image_url
     return payload
+
+
+def ensure_response_status(response, expected_status_code, error_text):
+    if response.status_code != expected_status_code:
+        raise RuntimeError(
+            f"{error_text}. "
+            f"Ожидался статус {expected_status_code}, "
+            f"получен {response.status_code}. "
+            f"Тело ответа: {response.text}"
+        )

@@ -1,10 +1,11 @@
-from data import EXPECTED_STATUS_CODES, get_login_payload
+from data import EXPECTED_STATUS_CODES
+from helpers import build_login_payload
 from utils import extract_token, get_response_json
 
 
 class TestLogin:
     def test_successful_login_of_registered_user(self, api_client, registered_user):
-        payload = get_login_payload(registered_user)
+        payload = build_login_payload(registered_user)
 
         response = api_client.login_user(payload)
         response_json = get_response_json(response)

@@ -1,10 +1,11 @@
-from data import EXPECTED_STATUS_CODES, get_create_advertisement_payload
+from data import EXPECTED_STATUS_CODES
+from helpers import build_create_advertisement_payload
 from utils import extract_advertisement_id, extract_title, get_response_json
 
 
 class TestCreateAdvertisement:
     def test_successful_create_advertisement(self, api_client, authorized_user):
-        payload = get_create_advertisement_payload()
+        payload = build_create_advertisement_payload()
 
         response = api_client.create_advertisement(authorized_user["token"], payload)
         response_json = get_response_json(response)

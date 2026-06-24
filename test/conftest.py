@@ -6,6 +6,7 @@ from helpers import (
     build_create_advertisement_payload,
     build_login_payload,
     build_registration_payload,
+    ensure_response_status,
 )
 from utils import (
     extract_advertisement_id,
@@ -13,16 +14,6 @@ from utils import (
     extract_token,
     get_response_json,
 )
-
-
-def _check_response_status(response, expected_status_code, error_text):
-    if response.status_code != expected_status_code:
-        raise RuntimeError(
-            f"{error_text}. "
-            f"Ожидался статус {expected_status_code}, "
-            f"получен {response.status_code}. "
-            f"Тело ответа: {response.text}"
-        )
 
 
 @pytest.fixture
@@ -35,7 +26,7 @@ def registered_user(api_client):
     user_data = build_registration_payload()
     response = api_client.register_user(user_data)
 
-    _check_response_status(
+    ensure_response_status(
         response,
         EXPECTED_STATUS_CODES["register_success"],
         "Не удалось зарегистрировать пользователя",
@@ -50,7 +41,7 @@ def authorized_user(api_client, registered_user):
     response_json = get_response_json(response)
     token = extract_token(response_json)
 
-    _check_response_status(
+    ensure_response_status(
         response,
         EXPECTED_STATUS_CODES["login_success"],
         "Не удалось авторизовать пользователя",
@@ -70,7 +61,7 @@ def another_authorized_user(api_client):
     user_data = build_registration_payload()
     register_response = api_client.register_user(user_data)
 
-    _check_response_status(
+    ensure_response_status(
         register_response,
         EXPECTED_STATUS_CODES["register_success"],
         "Не удалось зарегистрировать второго пользователя",
@@ -80,7 +71,7 @@ def another_authorized_user(api_client):
     login_response_json = get_response_json(login_response)
     token = extract_token(login_response_json)
 
-    _check_response_status(
+    ensure_response_status(
         login_response,
         EXPECTED_STATUS_CODES["login_success"],
         "Не удалось авторизовать второго пользователя",
@@ -103,7 +94,7 @@ def created_advertisement(api_client, authorized_user):
     advertisement_id = extract_advertisement_id(response_json)
     image_url = extract_image_url(response_json)
 
-    _check_response_status(
+    ensure_response_status(
         response,
         EXPECTED_STATUS_CODES["create_advertisement_success"],
         "Не удалось создать объявление",
@@ -113,7 +104,7 @@ def created_advertisement(api_client, authorized_user):
         raise RuntimeError("В ответе на создание объявления отсутствует id")
 
     if image_url is None:
-        image_url = payload.get("img1", "null")
+        image_url = payload.get("img1")
 
     return {
         "id": advertisement_id,
