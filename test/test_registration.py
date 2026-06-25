@@ -17,3 +17,4 @@ class TestRegistration:
         response = api_client.register_user(registered_user)
 
         assert response.status_code == EXPECTED_STATUS_CODES["register_duplicate"]
+        

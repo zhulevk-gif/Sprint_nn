@@ -12,3 +12,4 @@ class TestLogin:
 
         assert response.status_code == EXPECTED_STATUS_CODES["login_success"]
         assert extract_token(response_json) is not None
+        

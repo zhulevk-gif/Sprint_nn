@@ -22,7 +22,7 @@ ADVERTISEMENT_TEMPLATE = {
 }
 
 UPDATED_ADVERTISEMENT_TEMPLATE = {
-    "name": "wow",
+    "name": "updated wow",
     "category": "Книги",
     "condition": "Б/У",
     "city": "Нижний Новгород",

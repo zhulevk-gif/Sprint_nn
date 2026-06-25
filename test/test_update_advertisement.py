@@ -32,3 +32,4 @@ class TestUpdateAdvertisement:
         )
 
         assert response.status_code == EXPECTED_STATUS_CODES["update_foreign_advertisement"]
+        

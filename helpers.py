@@ -41,3 +41,4 @@ def ensure_response_status(response, expected_status_code, error_text):
             f"получен {response.status_code}. "
             f"Тело ответа: {response.text}"
         )
+    

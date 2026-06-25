@@ -13,3 +13,4 @@ class TestCreateAdvertisement:
         assert response.status_code == EXPECTED_STATUS_CODES["create_advertisement_success"]
         assert extract_advertisement_id(response_json) is not None
         assert extract_title(response_json) == payload["name"]
+        
